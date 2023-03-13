@@ -2,6 +2,7 @@ package com.example.flutter_subscreen_plugin
 
 import android.app.Activity
 import android.content.Context
+import android.hardware.display.DisplayManager
 import android.media.MediaRouter
 import android.media.MediaRouter.ROUTE_TYPE_LIVE_VIDEO
 import android.os.Build
@@ -11,6 +12,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import android.media.MediaRouter.SimpleCallback
 import android.provider.Settings
 import android.view.WindowManager
+import androidx.core.content.ContextCompat.getSystemService
 import io.flutter.FlutterInjector
 import io.flutter.embedding.engine.dart.DartExecutor
 
@@ -126,12 +128,21 @@ class FlutterSubScreenProvider private constructor() {
      * 获取扩展显示屏
      */
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+
     fun getPresentationDisplay(): Display? {
-        val route = mediaRouter?.getSelectedRoute(ROUTE_TYPE_LIVE_VIDEO)
-        if (route != null) {
-            return route.presentationDisplay
+
+        val displayManager = currentActivity!!.applicationContext.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+        val displays = displayManager.displays
+        if (displays.size <= 1) {
+            return null
         }
-        return null
+        return displays[1]
+
+//        val route = mediaRouter?.getSelectedRoute(ROUTE_TYPE_LIVE_VIDEO)
+//        if (route != null) {
+//            return route.presentationDisplay
+//        }
+//        return null
     }
 
     /**
