@@ -131,18 +131,18 @@ class FlutterSubScreenProvider private constructor() {
 
     fun getPresentationDisplay(): Display? {
 
-        val displayManager = currentActivity!!.applicationContext.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
-        val displays = displayManager.displays
-        if (displays.size <= 1) {
-            return null
-        }
-        return displays[1]
-
-//        val route = mediaRouter?.getSelectedRoute(ROUTE_TYPE_LIVE_VIDEO)
-//        if (route != null) {
-//            return route.presentationDisplay
+//        val displayManager = currentActivity!!.applicationContext.getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
+//        val displays = displayManager.displays
+//        if (displays.size <= 1) {
+//            return null
 //        }
-//        return null
+//        return displays[1]
+
+        val route = mediaRouter?.getSelectedRoute(ROUTE_TYPE_LIVE_VIDEO)
+        if (route != null) {
+            return route.presentationDisplay
+        }
+        return null
     }
 
     /**
